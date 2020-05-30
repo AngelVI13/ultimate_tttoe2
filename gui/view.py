@@ -24,7 +24,7 @@ class View(Listener):
         self.render_handler_map = {
             States.MENU: self.render_menu,
             States.HELP: self.render_help,
-            States.PLAY: self.redner_play,
+            States.PLAY: self.render_play,
         }
 
     def notify(self, event: Event):
@@ -41,7 +41,7 @@ class View(Listener):
             if not self.initialized:
                 return
 
-            current_state = self.game_engine.peek()
+            current_state = self.game_engine.state.peek()
             handler = self.render_handler_map.get(current_state)
             if handler is None:
                 raise Exception(f"Unsupported state: {current_state}. No render handler defined.")
@@ -52,25 +52,26 @@ class View(Listener):
             # limit the redraw speed
             self.clock.tick(self.fps)
             
-    def render_menu():
+    def render_menu(self):
         self.screen.fill(pygame.Color("white"))
-        text = self.font.render("Menu. (space to play, esc to exit)", True, pygame.Color("black"))
+        text = self.font_instance.render("Menu. (space to play, esc to exit)", True, pygame.Color("black"))
         self.screen.blit(text, (0, 0))
 
-    def render_help():
+    def render_help(self):
         self.screen.fill(pygame.Color("white"))
-        text = self.font.render("Help. (space, esc to return)", True, pygame.Color("black"))
+        text = self.font_instance.render("Help. (space, esc to return)", True, pygame.Color("black"))
         self.screen.blit(text, (0, 0))
 
-    def render_play():
+    def render_play(self):
         self.screen.fill(pygame.Color("white"))
-        text = self.font.render("Play (f1 for help, esc for menu)", True, pygame.Color("black"))
+        text = self.font_instance.render("Play (f1 for help, esc for menu)", True, pygame.Color("black"))
         self.screen.blit(text, (0, 0))
 
     def initialize(self):
         pygame.init()
         pygame.font.init()
         pygame.display.set_caption(self.window_title)
+        self.screen = pygame.display.set_mode(self.window_size)
         self.clock = pygame.time.Clock()
         self.font_instance = pygame.font.Font(None, 30)  # todo what are these params
         self.initialized = True

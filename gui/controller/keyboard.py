@@ -30,7 +30,7 @@ class Keyboard(Listener):
             elif event.type == pygame.KEYDOWN:
                 self.handle_keydown(event)
 
-    def handle_keydown(event: Event):
+    def handle_keydown(self, event: Event):
         if event.key == pygame.K_ESCAPE:
             self.event_manager.post(StateChangeEvent(States.POP))
             return

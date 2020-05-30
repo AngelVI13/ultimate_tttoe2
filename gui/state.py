@@ -7,6 +7,8 @@ from typing import Optional, List
 
 class States(Enum):
     """State machine constants to represent current game state."""
+
+    POP = auto()  # indicates when state stack should be poped
     MENU = auto()
     HELP = auto()
     PLAY = auto()
@@ -32,7 +34,7 @@ class StateMachine:
 
     def pop(self) -> Optional[States]:
         """Remove and return the current state from the stack.
-        Return None if the stack is empty. 
+        Return None if the stack is empty.
         """
         if not self.state_stack:
             return None

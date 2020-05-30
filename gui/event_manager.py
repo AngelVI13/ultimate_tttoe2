@@ -14,6 +14,7 @@ class EventManager:
     """Coordinates the communication between the Model,
     View and Controller.
     """
+
     def __init__(self):
         self.listeners = WeakKeyDictionary()
 
@@ -25,10 +26,10 @@ class EventManager:
 
     def post(self, event: Event):
         """Forward event to all registered listeners."""
-        
+
         if not isinstance(event, TickEvent):
             # print any non tick event
-            print(str(event)) # todo remove
+            print(str(event))  # todo remove
 
         for listener in self.listeners:
             listener.notify(event)
@@ -38,10 +39,11 @@ class Listener(ABC):
     """Base Listener class. Implements registering listeners and
     an abstract method for notifying subscribers.
     """
+
     def __init__(self, event_manager: EventManager):
         self.event_manager = event_manager
         self.event_manager.register_listener(self)
-    
+
     @abstractmethod
     def notify(self, event: Event):
         pass
@@ -49,7 +51,7 @@ class Listener(ABC):
 
 if __name__ == "__main__":
     event_manager = EventManager()
-    
+
     try:
         listener = Listener()
     except Exception as err:

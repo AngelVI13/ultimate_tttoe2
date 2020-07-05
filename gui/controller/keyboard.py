@@ -54,7 +54,7 @@ class Keyboard(Listener):
 
         # space plays the game
         if event.key == pygame.K_SPACE:
-            self.event_manager.post(StateChangeEvent(States.STATE_PLAY))
+            self.event_manager.post(StateChangeEvent(States.PLAY))
 
     def keydown_help(self, event):
         """Handles help key events"""
@@ -70,7 +70,7 @@ class Keyboard(Listener):
 
         # F1 shows the help
         if event.key == pygame.K_F1:
-            self.event_manager.post(StateChangeEvent(States.STATE_HELP))
+            self.event_manager.post(StateChangeEvent(States.HELP))
         else:
             self.event_manager.post(KeyboardEvent(event.unicode))
 

@@ -41,6 +41,7 @@ class GameEngine(Listener):
         elif isinstance(event, StateChangeEvent):
             if event.state == States.POP:
                 self._pop_state()
+                return  # do not store POP state on the stack
 
             self.state.push(event.state)
 

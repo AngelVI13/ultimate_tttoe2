@@ -8,7 +8,13 @@ def main():
     event_manager = EventManager()
     game_engine = GameEngine(event_manager)
     _keyboard = Keyboard(event_manager, game_engine)
-    _view = View(event_manager, game_engine, window_size=(300, 300), window_title="Ultimate Tic Tac Toe", fps=30)
+    _view = View(
+        event_manager,
+        game_engine,
+        window_size=(300, 300),
+        window_title="Ultimate Tic Tac Toe",
+        fps=30,
+    )
     game_engine.run()
 
 

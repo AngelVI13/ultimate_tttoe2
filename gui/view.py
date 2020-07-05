@@ -7,7 +7,7 @@ from gui.event_manager import Listener
 
 class View(Listener):
     """Draws the model state onto the screen."""
-    
+
     def __init__(self, event_manager, game_engine, window_size, window_title, fps):
         super().__init__(event_manager)
         self.game_engine = game_engine
@@ -16,7 +16,7 @@ class View(Listener):
         self.fps = fps
 
         self.initialized = False
-        
+
         self.screen = None
         self.clock = None
         self.font_instance = None
@@ -44,27 +44,35 @@ class View(Listener):
             current_state = self.game_engine.state.peek()
             handler = self.render_handler_map.get(current_state)
             if handler is None:
-                raise Exception(f"Unsupported state: {current_state}. No render handler defined.")
+                raise Exception(
+                    f"Unsupported state: {current_state}. No render handler defined."
+                )
 
             handler()  # draw on canvas
             pygame.display.flip()  # update canvas on screen
-            
+
             # limit the redraw speed
             self.clock.tick(self.fps)
-            
+
     def render_menu(self):
         self.screen.fill(pygame.Color("white"))
-        text = self.font_instance.render("Menu. (space to play, esc to exit)", True, pygame.Color("black"))
+        text = self.font_instance.render(
+            "Menu. (space to play, esc to exit)", True, pygame.Color("black")
+        )
         self.screen.blit(text, (0, 0))
 
     def render_help(self):
         self.screen.fill(pygame.Color("white"))
-        text = self.font_instance.render("Help. (space, esc to return)", True, pygame.Color("black"))
+        text = self.font_instance.render(
+            "Help. (space, esc to return)", True, pygame.Color("black")
+        )
         self.screen.blit(text, (0, 0))
 
     def render_play(self):
         self.screen.fill(pygame.Color("white"))
-        text = self.font_instance.render("Play (f1 for help, esc for menu)", True, pygame.Color("black"))
+        text = self.font_instance.render(
+            "Play (f1 for help, esc for menu)", True, pygame.Color("black")
+        )
         self.screen.blit(text, (0, 0))
 
     def initialize(self):

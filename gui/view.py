@@ -1,8 +1,10 @@
 import pygame
+from typing import Optional
 
 from gui.event import *
 from gui.state import States
 from gui.event_manager import Listener
+from gui.views.menu import Menu
 
 
 class View(Listener):
@@ -21,11 +23,15 @@ class View(Listener):
         self.clock = None
         self.font_instance = None
 
+        # State<>Render map
         self.render_handler_map = {
             States.MENU: self.render_menu,
             States.HELP: self.render_help,
             States.PLAY: self.render_play,
         }
+
+        # Views
+        self.menu_view: Optional[Menu] = None
 
     def notify(self, event: Event):
         """Receive events posted on the message queue."""
@@ -55,11 +61,7 @@ class View(Listener):
             self.clock.tick(self.fps)
 
     def render_menu(self):
-        self.screen.fill(pygame.Color("white"))
-        text = self.font_instance.render(
-            "Menu. (space to play, esc to exit)", True, pygame.Color("black")
-        )
-        self.screen.blit(text, (0, 0))
+        self.menu_view.render()
 
     def render_help(self):
         self.screen.fill(pygame.Color("white"))
@@ -83,3 +85,6 @@ class View(Listener):
         self.clock = pygame.time.Clock()
         self.font_instance = pygame.font.Font(None, 30)  # todo what are these params
         self.initialized = True
+
+        # Initialize views
+        self.menu_view = Menu(self.screen)

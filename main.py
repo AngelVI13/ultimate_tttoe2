@@ -2,6 +2,7 @@ from gui.event_manager import EventManager
 from gui.game_engine import GameEngine
 from gui.controller.keyboard import Keyboard
 from gui.view import View
+from gui.settings import DISPLAY_WIDTH, DISPLAY_HEIGHT
 
 
 def main():
@@ -11,7 +12,7 @@ def main():
     _view = View(
         event_manager,
         game_engine,
-        window_size=(300, 300),
+        window_size=(DISPLAY_WIDTH, DISPLAY_HEIGHT),
         window_title="Ultimate Tic Tac Toe",
         fps=30,
     )

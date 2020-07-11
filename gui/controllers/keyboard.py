@@ -1,22 +1,24 @@
 import pygame
 
 from gui.event import *
+from gui.view import View
 from gui.game_engine import GameEngine
 from gui.event_manager import EventManager
 
 
 class Keyboard:
-    def __init__(self, event_manager: EventManager, game_engine: GameEngine):
+    def __init__(self, event_manager: EventManager, game_engine: GameEngine, view: View):
         self.event_manager = event_manager
         self.game_engine = game_engine
+        self.view = view
 
         self.keydown_state_map = {
-            States.MENU: self.keyup_menu,
-            States.HELP: self.keyup_help,
-            States.PLAY: self.keyup_play,
+            States.MENU: self.keydown_menu,
+            States.HELP: self.keydown_help,
+            States.PLAY: self.keydown_play,
         }
 
-    def handle_keyup(self, event: Event):
+    def handle_keydown(self, event: Event):
         if event.key == pygame.K_ESCAPE:
             self.event_manager.post(StateChangeEvent(States.POP))
             return
@@ -31,7 +33,7 @@ class Keyboard:
 
         handler(event)
 
-    def keyup_menu(self, event):
+    def keydown_menu(self, event):
         """Handles menu key events."""
 
         # escape pops the menu
@@ -42,13 +44,13 @@ class Keyboard:
         if event.key == pygame.K_SPACE:
             self.event_manager.post(StateChangeEvent(States.PLAY))
 
-    def keyup_help(self, event):
+    def keydown_help(self, event):
         """Handles help key events"""
         # space, enter or escape pops the help
         if event.key in (pygame.K_ESCAPE, pygame.K_SPACE, pygame.K_RETURN):
             self.event_manager.post(StateChangeEvent(States.POP))
 
-    def keyup_play(self, event):
+    def keydown_play(self, event):
         """Handles play key events"""
         if event.key == pygame.K_ESCAPE:
             # todo this should ask for confirmation before exitting the game
@@ -58,7 +60,8 @@ class Keyboard:
         if event.key == pygame.K_F1:
             self.event_manager.post(StateChangeEvent(States.HELP))
         else:
-            self.event_manager.post(KeyboardEvent(event.unicode))
+            print(event)
+            self.event_manager.post(KeyboardEvent(event.key))
 
 
 if __name__ == "__main__":

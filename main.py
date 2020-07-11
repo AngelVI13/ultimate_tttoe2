@@ -2,7 +2,7 @@ from gui.event_manager import EventManager
 from gui.game_engine import GameEngine
 from gui.controller.keyboard import Keyboard
 from gui.view import View
-from gui.settings import DISPLAY_WIDTH, DISPLAY_HEIGHT
+from gui.settings.display import DISPLAY_WIDTH, DISPLAY_HEIGHT
 
 
 def main():

@@ -1,6 +1,6 @@
 import pygame
 
-from gui.settings import DISPLAY_SCALING
+from gui.settings.display import DISPLAY_SCALING
 
 
 def get_text_objects(text, font):
@@ -18,19 +18,40 @@ def message_display(surface, text, pos=None, font='freesansbold.ttf', size=60):
 	text_rect.center = (pos_x, pos_y)
 	surface.blit(text_surf, text_rect)
 
-def button(surface, msg, x, y, w, h, ic, ac, action=None):
-	mouse = pygame.mouse.get_pos()
-	click = pygame.mouse.get_pressed()
-	# print(click)
-	if x + w > mouse[0] > x and y + h > mouse[1] > y:
-		pygame.draw.rect(surface, ac, (x, y, w, h))
 
-		if click[0] == 1 and action is not None:
-			action()
-	else:
-		pygame.draw.rect(surface, ic, (x, y, w, h))
+class Button:
+	text_font = None
 
-	small_text = pygame.font.SysFont("comicsansms", 20 * DISPLAY_SCALING)
-	text_surf, text_rect = get_text_objects(msg, small_text)
-	text_rect.center = ((x + (w / 2)), (y + (h / 2)))
-	surface.blit(text_surf, text_rect)
+	def __init__(self, x, y, w, h, msg, ic, ac, action=None):
+		self.x = x
+		self.y = y
+		self.w = w
+		self.h = h
+		self.msg = msg
+		self.ic = ic # inactive color
+		self.ac = ac # active color
+		self.action = action # action type i.e. Play, Quit etc.
+
+		# initialize font if not done already
+		if self.text_font is None:
+			self.text_font = pygame.font.SysFont("comicsansms", 20 * DISPLAY_SCALING)
+
+		# Text object (Rect + Surf)
+		self.text_surf, self.text_rect = get_text_objects(self.msg, self.text_font)
+		self.text_rect.center = self.x + (self.w / 2), self.y + (self.h / 2)
+
+		self.box = pygame.Rect(self.x, self.y, self.w, self.h)
+
+	def render(self, surface):
+		mouse = pygame.mouse.get_pos()
+		click = pygame.mouse.get_pressed()
+		# print(click)
+		if self.x + self.w > mouse[0] > self.x and self.y + self.h > mouse[1] > self.y:
+			pygame.draw.rect(surface, self.ac, self.box)
+			
+			if click[0] == 1 and self.action is not None:
+				self.action()
+		else:
+			pygame.draw.rect(surface, self.ic, self.box)
+
+		surface.blit(self.text_surf, self.text_rect)

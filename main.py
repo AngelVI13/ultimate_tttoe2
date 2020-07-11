@@ -1,6 +1,6 @@
 from gui.event_manager import EventManager
 from gui.game_engine import GameEngine
-from gui.controller.keyboard import Keyboard
+from gui.controller import Controller
 from gui.view import View
 from gui.settings.display import DISPLAY_WIDTH, DISPLAY_HEIGHT
 
@@ -8,7 +8,7 @@ from gui.settings.display import DISPLAY_WIDTH, DISPLAY_HEIGHT
 def main():
     event_manager = EventManager()
     game_engine = GameEngine(event_manager)
-    _keyboard = Keyboard(event_manager, game_engine)
+    _controller = Controller(event_manager, game_engine)
     _view = View(
         event_manager,
         game_engine,

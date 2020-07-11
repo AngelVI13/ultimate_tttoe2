@@ -2,35 +2,21 @@ import pygame
 
 from gui.event import *
 from gui.game_engine import GameEngine
-from gui.event_manager import Listener, EventManager
+from gui.event_manager import EventManager
 
 
-class Keyboard(Listener):
+class Keyboard:
     def __init__(self, event_manager: EventManager, game_engine: GameEngine):
-        super().__init__(event_manager)
+        self.event_manager = event_manager
         self.game_engine = game_engine
 
         self.keydown_state_map = {
-            States.MENU: self.keydown_menu,
-            States.HELP: self.keydown_help,
-            States.PLAY: self.keydown_play,
+            States.MENU: self.keyup_menu,
+            States.HELP: self.keyup_help,
+            States.PLAY: self.keyup_play,
         }
 
-    def notify(self, event: Event):
-        # Controller event handling is only performed on TickEvents
-        if not isinstance(event, TickEvent):
-            return
-
-        for event in pygame.event.get():
-            # handle window manager closing the window (X-button click)
-            if event.type == pygame.QUIT:
-                self.event_manager.post(QuitEvent())
-
-            # handle key presses
-            elif event.type == pygame.KEYDOWN:
-                self.handle_keydown(event)
-
-    def handle_keydown(self, event: Event):
+    def handle_keyup(self, event: Event):
         if event.key == pygame.K_ESCAPE:
             self.event_manager.post(StateChangeEvent(States.POP))
             return
@@ -45,7 +31,7 @@ class Keyboard(Listener):
 
         handler(event)
 
-    def keydown_menu(self, event):
+    def keyup_menu(self, event):
         """Handles menu key events."""
 
         # escape pops the menu
@@ -56,13 +42,13 @@ class Keyboard(Listener):
         if event.key == pygame.K_SPACE:
             self.event_manager.post(StateChangeEvent(States.PLAY))
 
-    def keydown_help(self, event):
+    def keyup_help(self, event):
         """Handles help key events"""
         # space, enter or escape pops the help
         if event.key in (pygame.K_ESCAPE, pygame.K_SPACE, pygame.K_RETURN):
             self.event_manager.post(StateChangeEvent(States.POP))
 
-    def keydown_play(self, event):
+    def keyup_play(self, event):
         """Handles play key events"""
         if event.key == pygame.K_ESCAPE:
             # todo this should ask for confirmation before exitting the game

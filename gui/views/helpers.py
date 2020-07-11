@@ -42,10 +42,7 @@ class Button:
 
 		self.box = pygame.Rect(self.x, self.y, self.w, self.h)
 
-	def render(self, surface):
-		mouse = pygame.mouse.get_pos()
-		click = pygame.mouse.get_pressed()
-		# print(click)
+	def render(self, surface, mouse, click):
 		if self.x + self.w > mouse[0] > self.x and self.y + self.h > mouse[1] > self.y:
 			pygame.draw.rect(surface, self.ac, self.box)
 			

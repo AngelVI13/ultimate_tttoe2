@@ -3,7 +3,7 @@ import pygame
 from gui.settings.display import DISPLAY_SCALING
 from gui.settings.color_scheme import PURPLE, PURPLE_HIGHLIGHT
 from gui.views.menu_background import Background
-from gui.views.helpers import message_display, button, Button
+from gui.views.helpers import message_display, Button
 
 
 class Menu:
@@ -43,8 +43,7 @@ class Menu:
 			button_properties.update(self.COMMON_BUTTON_PROPERTIES)
 
 			self.buttons.append(
-				Button(
-					msg=self.BUTTON_LABELS[idx], **self.MENU_BUTTON_PROPERTIES[idx])
+				Button(msg=self.BUTTON_LABELS[idx], **self.MENU_BUTTON_PROPERTIES[idx])
 			)
 
 
@@ -56,5 +55,9 @@ class Menu:
 		message_display(surface=self.screen, text="Ultimate Tic Tac Toe", pos=(self.screen.get_width() / 2, self.screen.get_height() / 3),
 						font='comicsansms', size=40)
 
+		# only ask for mouse & click status once and not for every button
+		mouse = pygame.mouse.get_pos()
+		click = pygame.mouse.get_pressed()
+		
 		for button in self.buttons:
-			button.render(self.screen)
+			button.render(self.screen, mouse, click)

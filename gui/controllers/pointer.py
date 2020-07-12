@@ -2,6 +2,7 @@ import pygame
 
 from gui.event import *
 from gui.view import View
+from gui.views.menu import MenuActions
 from gui.game_engine import GameEngine
 from gui.event_manager import EventManager
 
@@ -38,14 +39,17 @@ class Pointer:
 
 
     def mouseup_menu(self, event):
-        """Handles menu key events."""
+        """Handles menu pointer events."""
 
         # get pointer to the view.
         # depending on the state -> check what was clicked on the screen
         # change state of model
 
         # escape pops the menu
-        pass
+        for button in self.view.menu_view.buttons:
+            if button.box.collidepoint(event.pos):
+                if button.action == MenuActions.QUIT:
+                    self.event_manager.post(StateChangeEvent(States.POP))
 
     def mouseup_help(self, event):
         """Handles help key events"""

@@ -1,4 +1,5 @@
 import pygame
+from enum import Enum, auto
 
 from gui.settings.display import DISPLAY_SCALING
 from gui.settings.color_scheme import PURPLE, PURPLE_HIGHLIGHT
@@ -6,11 +7,23 @@ from gui.views.menu_background import Background
 from gui.views.helpers import message_display, Button
 
 
+class MenuActions(Enum):
+	SINGLE_PLAYER = auto()
+	TWO_PLAYER = auto()
+	DEMO = auto()
+	QUIT = auto()
+
+
 class Menu:
 	# todo decide how to nicely handle these values
 	
 	# Menu buttons
-	BUTTON_LABELS = ["Single Player", "Two Player", "Demo", "Quit"]
+	BUTTON_ACTIONS = {
+		"Single Player": MenuActions.SINGLE_PLAYER, 
+		"Two Player": MenuActions.TWO_PLAYER, 
+		"Demo": MenuActions.DEMO, 
+		"Quit": MenuActions.QUIT
+	}
 	
 	# menu button properties
 	_BUTTON_WIDTH = 300 * DISPLAY_SCALING
@@ -33,17 +46,19 @@ class Menu:
 
 		self.MENU_BUTTON_PROPERTIES = [  # todo add names instead of integers as keys
 			{"y": (self.screen_height/3) + (i + 1) * self._BUTTON_HEIGHT * self._BUTTON_Y_SPACING } 
-			for i in range(len(self.BUTTON_LABELS))
+			for i in range(len(self.BUTTON_ACTIONS))
 		]
 
 		self.buttons = []
 
+		button_action_tuples = list(self.BUTTON_ACTIONS.items())
 		# create button object with common & calculated button properties
 		for idx, button_properties in enumerate(self.MENU_BUTTON_PROPERTIES):
 			button_properties.update(self.COMMON_BUTTON_PROPERTIES)
 
+			msg, action = button_action_tuples[idx]
 			self.buttons.append(
-				Button(msg=self.BUTTON_LABELS[idx], **self.MENU_BUTTON_PROPERTIES[idx])
+				Button(msg=msg, action=action, **self.MENU_BUTTON_PROPERTIES[idx])
 			)
 
 
@@ -57,7 +72,6 @@ class Menu:
 
 		# only ask for mouse & click status once and not for every button
 		mouse = pygame.mouse.get_pos()
-		click = pygame.mouse.get_pressed()
 		
 		for button in self.buttons:
-			button.render(self.screen, mouse, click)
+			button.render(self.screen, mouse)

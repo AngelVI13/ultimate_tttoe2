@@ -22,7 +22,7 @@ def message_display(surface, text, pos=None, font='freesansbold.ttf', size=60):
 class Button:
 	text_font = None
 
-	def __init__(self, x, y, w, h, msg, ic, ac, action=None):
+	def __init__(self, x, y, w, h, msg, ic, ac, action):
 		self.x = x
 		self.y = y
 		self.w = w
@@ -42,12 +42,9 @@ class Button:
 
 		self.box = pygame.Rect(self.x, self.y, self.w, self.h)
 
-	def render(self, surface, mouse, click):
+	def render(self, surface, mouse):
 		if self.x + self.w > mouse[0] > self.x and self.y + self.h > mouse[1] > self.y:
 			pygame.draw.rect(surface, self.ac, self.box)
-			
-			if click[0] == 1 and self.action is not None:
-				self.action()
 		else:
 			pygame.draw.rect(surface, self.ic, self.box)
 

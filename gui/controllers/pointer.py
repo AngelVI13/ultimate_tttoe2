@@ -47,9 +47,15 @@ class Pointer:
 
         # escape pops the menu
         for button in self.view.menu_view.buttons:
+            # if button is clicked
             if button.box.collidepoint(event.pos):
+
+                # handle menu actions
                 if button.action == MenuActions.QUIT:
                     self.event_manager.post(StateChangeEvent(States.POP))
+
+                # only 1 button can be clicked at a time
+                break
 
     def mouseup_help(self, event):
         """Handles help key events"""

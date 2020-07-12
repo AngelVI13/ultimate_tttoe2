@@ -70,7 +70,7 @@ class Menu:
 		message_display(surface=self.screen, text="Ultimate Tic Tac Toe", pos=(self.screen.get_width() / 2, self.screen.get_height() / 3),
 						font='comicsansms', size=40)
 
-		# only ask for mouse & click status once and not for every button
+		# only ask for mouse status once and not for every button
 		mouse = pygame.mouse.get_pos()
 		
 		for button in self.buttons:

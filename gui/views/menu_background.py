@@ -19,8 +19,11 @@ class Background:
 
     def __init__(self, game_display):
         self.game_display = game_display
-        x_coords = (random.randrange(0, game_display.get_width()) for _ in range(self.num_animations))
-        y_coords = (random.randrange(0, game_display.get_height()) for _ in range(self.num_animations))
+        self.display_width = self.game_display.get_width()
+        self.display_height = self.game_display.get_height()
+
+        x_coords = (random.randrange(0, self.display_width) for _ in range(self.num_animations))
+        y_coords = (random.randrange(0, self.display_height) for _ in range(self.num_animations))
         increment_padding = [0] * (self.num_animations//2)
         x_increment = [random.randrange(2, 5) for _ in range(self.num_animations // 2)]
         x_increment.extend(increment_padding)
@@ -38,9 +41,9 @@ class Background:
             self.game_display.blit(animation.img, (animation.x, animation.y))
 
             self.animations[idx].x += self.animations[idx].x_increment
-            if self.animations[idx].x > self.game_display.get_width():
+            if self.animations[idx].x > self.display_width:
                 self.animations[idx].x = 0
 
             self.animations[idx].y += self.animations[idx].y_increment
-            if self.animations[idx].y > self.game_display.get_height():
+            if self.animations[idx].y > self.display_height:
                 self.animations[idx].y = 0

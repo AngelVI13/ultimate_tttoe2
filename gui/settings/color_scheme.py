@@ -1,3 +1,6 @@
+from board.constants import PLAYER_X, PLAYER_O
+
+
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
@@ -12,3 +15,9 @@ BLUE_HIGHLIGHT = (0x31, 0xb0, 0xd1)
 
 PURPLE = (0x6c, 0x6e, 0xA0)
 PURPLE_HIGHLIGHT = (0x59, 0x5b, 0x83)
+
+PLAYER_COLORS = {
+    PLAYER_X: RED,
+    PLAYER_O: BLUE,
+}
+

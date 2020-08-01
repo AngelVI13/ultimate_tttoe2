@@ -3,8 +3,9 @@ from enum import Enum, auto
 
 from gui.settings.display import DISPLAY_SCALING
 from gui.settings.color_scheme import PURPLE, PURPLE_HIGHLIGHT
-from gui.views.menu_background import Background
-from gui.views.helpers import message_display, Button
+from gui.views.menu.background import Background
+from gui.views.helpers import message_display
+from gui.views.common import Button
 
 
 class MenuActions(Enum):
